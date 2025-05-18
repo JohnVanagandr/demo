@@ -1,3 +1,5 @@
+import { eliminarcate } from "./eliminarcateController.js";
+
 export const categoriasController = () => {
   
   const listar =  async () => {
@@ -19,6 +21,15 @@ export const categoriasController = () => {
       tdDescripcion.textContent = descripcion;
       btnEditar.textContent = "Editar";
       btnEliminar.textContent = "Eliminar";
+
+      tr.setAttribute("id" , `user_${id}`)
+      //eliminar cate
+      btnEliminar.dataset.id = data.id;
+      btnEliminar.addEventListener ("click",  async () => {
+        
+        await eliminarcate(id);
+      })
+      
       // Agregamos los atributos
       btnEditar.setAttribute("href", `#editarcategoria/${id}`)
       // Creamos la botonera

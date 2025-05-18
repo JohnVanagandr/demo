@@ -1,4 +1,3 @@
-
 import './main.css';
 import 'sweetalert2/src/sweetalert2.scss'
 import { router } from './router/router';

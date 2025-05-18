@@ -4,9 +4,14 @@ import { productoController } from "../views/productos/productoController.js";
 import { categoriasController } from "../views/categorias/categoriasController.js";
 import { categoriaController } from "../views/categorias/categoriaController.js";
 import { editarController } from "../views/categorias/editarController.js";
+import { editarProductos } from "../views/productos/editarProductosController.js";
 
 
 const routes = {
+  "/": {
+    "template": "productos/index.html",
+    controlador: productosController
+  },
   productos: {
     "template": "productos/index.html",
     controlador: productosController
@@ -26,32 +31,37 @@ const routes = {
   "editarcategoria/:id": {
     "template": "categorias/editar.html",
     controlador: editarController
+  },
+  "editarProductos/:id": {
+    "template": "productos/editar.html",
+    controlador: editarProductos
   }
+
 };
 
 export const router = async (app) => {  
   const hash = location.hash.slice(1);
-  const [ template, params ] = matchRoute(hash)
-  console.log(template);
-  console.log(params);
-  
+  const [ rutas, params ] = matchRoute(hash)
+  // console.log(rutas);
+  // console.log(params);
+  // return
   // Llamando la vista
-  await loadView(app, template);
+  await loadView(app, rutas.template);
   // Ejecutar el controldor
-  controlador()
+  rutas.controlador(params)
 }
 
 const matchRoute = (hash) => {  
   const arreglo = hash.split('/') ;  
 
   for (const route in routes) {
-    const b = route.split('/') ;   
+    const b = route.split('/');   
     
     if (b.length !== arreglo.length) continue
     
     const params = {}
 
-    const matched = b.every( (parte, i) => {      
+    const matched = b.every((parte, i) => {      
       if (parte.startsWith(":")) {   
         const partName = parte.slice(1);
         const value = arreglo[i];
